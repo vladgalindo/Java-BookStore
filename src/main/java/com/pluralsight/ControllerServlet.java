@@ -19,10 +19,10 @@ import javax.inject.Inject;
  */
 
 public class ControllerServlet extends HttpServlet {
-		private static final long serialVersionUID = 1L;
-		private DBConnection dbConnection;
+	private static final long serialVersionUID = 1L;
+	private DBConnection dbConnection;
 
-		@Inject
+	@Inject
     private BookDAO bookDAO;
     /**
      * @see HttpServlet#HttpServlet()
@@ -33,7 +33,7 @@ public class ControllerServlet extends HttpServlet {
 			bookDAO = new BookDAO(dbConnection.getConnection());
     }
 
-		public void destroy() {
+    public void destroy() {
 			dbConnection.disconnect();
 		}
 
@@ -58,6 +58,9 @@ public class ControllerServlet extends HttpServlet {
           break;
 				case "/insert":
 					insertBook(request, response);
+          break;
+				case "/delete":
+					deleteBook(request, response);
           break;
         default:
 				   listBooks(request, response);
@@ -102,6 +105,15 @@ public class ControllerServlet extends HttpServlet {
 		Book newBook = new Book(title, author, Float.parseFloat(priceString));
 
 		bookDAO.insertBook(newBook);
+		response.sendRedirect("list");
+	}
+
+	private void deleteBook(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		Integer id = Integer.parseInt(request.getParameter("id"));
+
+		bookDAO.deleteBook(id);
+
 		response.sendRedirect("list");
 	}
 

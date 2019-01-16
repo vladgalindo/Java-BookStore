@@ -33,7 +33,7 @@
 	                    <td> ${ item.getAuthor() } </td>
 	                    <td> <fmt:formatNumber value = "${ item.getPrice() }" type = "currency"/>  </td>
                       <td> <a href="#edit">Edit</a>
-                           <a href="#delete">Delete</a> </td>
+                           <a href="delete?id=<c:out value='${ item.getId() }'/>">Delete</a> </td>
 	                </tr>
 	            </c:forEach>
 	        </table>
